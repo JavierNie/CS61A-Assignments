@@ -123,9 +123,9 @@ def sus_update(num_rolls, player_score, opponent_score, dice=six_sided):
     """
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
-    res=take_turn(num_rolls, player_score, opponent_score, dice=six_sided)
-    res+=sus_points(res)
-    return res
+    turn_score=take_turn(num_rolls, player_score, opponent_score, dice)
+    res=player_score+turn_score
+    return sus_points(res)
     # END PROBLEM 4
 
 
@@ -165,8 +165,17 @@ def play(strategy0, strategy1, update,
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    while score0<goal and score1<goal:
+        score0=update(strategy0(score0,score1),score0,score1,dice)#注意还有两个默认参数
+        if score0>=goal:
+            return score0,score1
+        score1=update(strategy1(score1,score0),score1,score0,dice)
+        if score1>=goal:
+            return score0,score1
+
+    
     # END PROBLEM 5
-    return score0, score1
+    #注意这里犯了一个错误：每位选手更新完之后应当立即检查分数
 
 
 #######################
