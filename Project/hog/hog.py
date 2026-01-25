@@ -166,13 +166,14 @@ def play(strategy0, strategy1, update,
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
     while score0<goal and score1<goal:
-        score0=update(strategy0(score0,score1),score0,score1,dice)#注意还有两个默认参数
-        if score0>=goal:
-            return score0,score1
-        score1=update(strategy1(score1,score0),score1,score0,dice)
-        if score1>=goal:
-            return score0,score1
-
+        if who==0:
+            score0=update(strategy0(score0,score1),score0,score1,dice)#注意还有两个默认参数
+            
+        else:
+            score1=update(strategy1(score1,score0),score1,score0,dice)
+            
+        who=1-who
+    return score0,score1
     
     # END PROBLEM 5
     #注意这里犯了一个错误：每位选手更新完之后应当立即检查分数
