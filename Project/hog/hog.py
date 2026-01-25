@@ -224,7 +224,11 @@ def is_always_roll(strategy, goal=GOAL):
     """
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
-    
+    if strategy(10,9)==strategy(10,11):
+        return True
+    else:
+        return False
+        
     # END PROBLEM 7
 
 
@@ -241,6 +245,13 @@ def make_averaged(original_function, times_called=1000):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    def averaged_function(*args):
+        sum=0
+        for _ in range(times_called):
+            sum+=original_function(*args)
+        return sum/times_called
+    return averaged_function
+        
     # END PROBLEM 8
 
 
@@ -254,6 +265,16 @@ def max_scoring_num_rolls(dice=six_sided, times_called=1000):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    max_rolling_num=0
+    max_average=0
+    for i in range 10:
+        current_rolling_num=i
+        current_average=make_averaged(roll_dice(i,dice=six_sided),times_called)
+        if current_average>max_average:
+            max_average=current_average
+            max_rolling_num=current_rolling_num
+    return max_rolling_num
+        
     # END PROBLEM 9
 
 
@@ -298,14 +319,26 @@ def boar_strategy(score, opponent_score, threshold=11, num_rolls=6):
     points, and returns NUM_ROLLS otherwise. Ignore score and Sus Fuss.
     """
     # BEGIN PROBLEM 10
-    return num_rolls  # Remove this line once implemented.
+    if boar_brawl(score,opponent_score)>=threshold:
+        return 0
+    else:
+        return num_rolls
     # END PROBLEM 10
 
 
 def sus_strategy(score, opponent_score, threshold=11, num_rolls=6):
     """This strategy returns 0 dice when your score would increase by at least threshold."""
     # BEGIN PROBLEM 11
-    return num_rolls  # Remove this line once implemented.
+    boar_score = boar_brawl(score, opponent_score)
+    
+    
+    new_score = score + boar_score
+    final_score = sus_points(new_score)
+    total_increase = final_score - score
+    if total_increase >= threshold:
+        return 0  # 投0个骰子
+    else:
+        return num_rolls  # 投默认数量的骰子
     # END PROBLEM 11
 
 
